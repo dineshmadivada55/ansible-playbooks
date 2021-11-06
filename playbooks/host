@@ -1,0 +1,20 @@
+[ubuntuslave]
+172.31.12.215
+
+[redhat]
+172.31.15.143
+
+[ubuntumaster]
+172.31.36.101
+
+[group:children]
+ubuntuslave
+redhat
+
+[all:vars]
+java_ubuntu= openjdk-8-jdk
+java_rhel= java-1.8.0-openjdk
+
+
+name=dinesh
+age=24

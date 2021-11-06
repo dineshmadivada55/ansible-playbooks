@@ -1,0 +1,33 @@
+---
+- hosts: all
+  become: true
+  tasks:
+      - name: install apache2 in ubuntu
+        apt:
+            name: apache2
+            state: present
+        when: ansible_os_family == "Debian"    
+      - name: install httpd in redhat
+        yum:
+            name: httpd
+            state: present
+        when: ansible_os_family == "RedHat"
+      - name: update index.html
+        template:
+              src: /home/dinesh/index.html.j2
+              dest: /var/www/html/index.html
+              backup: yes   
+        notify: 
+             - restart apache2 in ubuntu
+             - restart httpd in redhat  
+  handlers:                 
+      - name: restart apache2 in ubuntu
+        service:
+          name: apache2
+          state: restarted
+        when: ansible_os_family == "Debian"
+      - name: restart httpd in redhat
+        service:
+          name: httpd
+          state: restarted
+        when: ansible_os_family == "RedHat"   
